@@ -9,6 +9,10 @@ platforms:
   - name: instance
     # image: centos:7
     image: centos/systemd
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
 provisioner:
   name: ansible
   lint:

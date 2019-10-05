@@ -1,2 +1,8 @@
 ---
 # tasks file for ansible-postgresql
+- name: PostgreSQL package is installed
+  yum: 
+    name: "postgresql-server"
+    state: "present"
+  notify:
+    - restart postgresql
