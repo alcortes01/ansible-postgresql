@@ -2,10 +2,7 @@
 # tasks file for ansible-postgresql
 - name: PostgreSQL server package is installed
   yum:
-    name: {{ item }}
+    name: ['postgresql-server', 'postgresql-contrib']
     state: "present"
-  with_items:
-    - postgresql-server
-    - postgresql-contrib
   notify:
     - restart postgresql
