@@ -1,8 +1,31 @@
 ---
 # tasks file for ansible-postgresql
+- name: net-tools required for testings
+  yum:
+    name: net-tools
+    state: "present"
+
 - name: PostgreSQL server package is installed
   yum:
     name: ['postgresql-server', 'postgresql-contrib']
     state: "present"
-  notify:
-    - restart postgresql
+
+- name: Verify PostgreSQL is initialized
+  stat:
+    path: /var/lib/pgsql/data/PG_VERSION
+  register: pg_data_dir_version
+
+- name: Initialize PostgreSQL database
+  command: postgresql-setup initdb
+  when: not pg_data_dir_version.stat.exists
+
+- name: Ensure PostgreSQL allows remote connections
+  lineinfile:
+    path: /var/lib/pgsql/data/postgresql.conf
+    regexp: 'listen_addresses ='
+    line: 'listen_addresses = *'
+- name: Enable PostgresQL to start at boot
+  service:
+    name: postgresql
+    state: started
+    enabled: true
