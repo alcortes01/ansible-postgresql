@@ -13,6 +13,10 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
+    exposed_ports:
+      - 5432/tcp
+    publish_ports:
+      - 0.0.0.0:5432:5432/tcp
 provisioner:
   name: ansible
   lint:
