@@ -1,5 +1,6 @@
 ---
 # tasks file for ansible-postgresql
+
 - name: net-tools required for testings
   yum:
     name: net-tools
@@ -23,7 +24,8 @@
   lineinfile:
     path: /var/lib/pgsql/data/postgresql.conf
     regexp: 'listen_addresses ='
-    line: 'listen_addresses = *'
+    line: "listen_addresses = '*'"
+
 - name: Enable PostgresQL to start at boot
   service:
     name: postgresql
